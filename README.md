@@ -5,7 +5,7 @@ a Student Information System.
 The API basically has a few routes for getting student information using predefined parameters such as
 <b>ID</b> or <b>Registration Number</b>
 
-# params
+# @access params
 <ul>
   <li>Id</b>
   <li>Reg</b>
@@ -15,14 +15,14 @@ The API basically has a few routes for getting student information using predefi
 
 # installation
 
-## [1] You can clone the repository or download it.
+ [1] You can clone the repository or download it.
 
-## [2] You need to create a database and set your configurations as appropriate in the .env file but as you can see the .env file is available
-and it uses a database called smis_
+ [2] You need to create a database and set your configurations as appropriate in the .env file but as you can see the .env file
+ is  available and it uses a database called smis_
 
-## [3] You need to run the migrations to set up the necessary tables
+ [3] You need to run the migrations to set up the necessary tables
 
-## [4] you can run the batch file <b>server.cmd</b> to start up the server and finally access your smis-local copy.
+ [4] you can run the batch file <b>server.cmd</b> to start up the server and finally access your smis-local copy.
 
 
 # Note
