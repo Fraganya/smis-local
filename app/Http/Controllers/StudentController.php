@@ -30,7 +30,7 @@ class StudentController extends Controller
             'surname'=>'required|string',
             'gender'=>'required|string',
             'dob'=>'required|date',
-            'program'=>'required'
+            'program'=>'required|exists:programs,code'
         ]);
 
         $student=new Student($request->all());
@@ -67,7 +67,7 @@ class StudentController extends Controller
             'surname'=>'required|string',
             'gender'=>'required|string',
             'dob'=>'required|date',
-            'program'=>'required'
+            'program'=>'required|exists:programs,code'
         ]);
 
         $student=Student::where('id',$request->input('id'))->firstOrFail();

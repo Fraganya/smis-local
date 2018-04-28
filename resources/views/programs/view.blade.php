@@ -44,7 +44,21 @@
                                 </tbody>
                             </table>
                             <br>
-                            {{$programs->links()}}                            
+                            <ul class="pagination">
+                                @if($programs->onFirstPage())
+                                     <li class="disabled"><span>Prev</span></li>
+                                @else
+                                    <li><a href="{{ $programs->previousPageUrl() }}" rel="prev">Prev</a></li>
+                                @endif
+
+                                @if($programs->hasMorePages())
+                                <li><a href="{{ $programs->nextPageUrl() }}" rel="next">Next</a></li>
+                                @else
+                                     <li class="disabled"><span>Next</span></li>
+                                    
+                                @endif
+                            </ul>
+                                                       
       
             </div>
             <div class="col-sm-12">

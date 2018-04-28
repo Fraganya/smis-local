@@ -52,7 +52,20 @@
                                 </tbody>
                             </table>
                             <br>
-                            {{$students->links()}}                            
+                            {<ul class="pagination">
+                                @if($students->onFirstPage())
+                                     <li class="disabled"><span>Prev</span></li>
+                                @else
+                                    <li><a href="{{ $students->previousPageUrl() }}" rel="prev">Prev</a></li>
+                                @endif
+
+                                @if($students->hasMorePages())
+                                <li><a href="{{ $students->nextPageUrl() }}" rel="next">Next</a></li>
+                                @else
+                                     <li class="disabled"><span>Next</span></li>
+                                    
+                                @endif
+                            </ul>                           
       
             </div>
             <div class="col-sm-12">
