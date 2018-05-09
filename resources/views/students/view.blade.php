@@ -52,7 +52,7 @@
                                 </tbody>
                             </table>
                             <br>
-                            {<ul class="pagination">
+                            <ul class="pagination">
                                 @if($students->onFirstPage())
                                      <li class="disabled"><span>Prev</span></li>
                                 @else
