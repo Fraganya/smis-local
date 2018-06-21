@@ -8,6 +8,7 @@ use App\Student;
 
 class StudentController extends Controller
 {
+    private $student;
     /**
      * Create a new controller instance.
      *
@@ -33,24 +34,14 @@ class StudentController extends Controller
             'program'=>'required|exists:programs,code'
         ]);
 
-        $student=new Student($request->all());
+        $this->student=Student::create($request->all());
 
-        if($student->save()){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully created program!',
-                'program'=>$student
-            );
-        }
-        else{
+        if(empty($this->student->save())){
             return view('status',['response'=>'An error occurred!','back'=>'students/create']);
         }
 
-        return (
-            ($request->input('accessType')=='web') 
-            ? view('status',['response'=>json_encode($response),'back'=>'students/create']) 
-            : $response
-        );
+
+        return view('status',['response'=>$this->getEncodedResponse("Student successfully created"),'back'=>'students/create']);
     }
 
     public function edit($studID){
@@ -70,38 +61,33 @@ class StudentController extends Controller
             'program'=>'required|exists:programs,code'
         ]);
 
-        $student=Student::where('id',$request->input('id'))->firstOrFail();
+        $this->student=Student::where('id',$request->input('id'))->firstOrFail();
 
-        $updateCount=$student->update($request->all());
-        if($updateCount>0){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully updated student!',
-                'student'=>$student
-            );
-        }
-        else{
+        $updateCount=$this->student->update($request->all());
+        if($updateCount==0){
             return view('status',['response'=>'An error occurred!','back'=>'students']);
         }
-        return view('status',['response'=>json_encode($response),'back'=>'students']);
+        return view('status',['response'=>$this->getEncodedResponse('Succeffuly Updated Student'),'back'=>'students']);
     }
 
     public function destroy($studID){
-        $student=Student::where('id',$studID)->firstOrFail();
+        $this->student=Student::where('id',$studID)->firstOrFail();
 
-        if($student->delete()){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully deleted student!',
-                'student'=>$student
-            );
-        }
-        else{
+        if(!$this->student->delete()){
             return view('status',['response'=>'An error occurred!','back'=>'students']);
         }
-
-        return view('status',['response'=>json_encode($response),'back'=>'students']);
+        return view('status',['response'=>$this->getEncodedResponse("Student successfully deleted"),'back'=>'students']);
     }
 
+    private function getEncodedResponse($msg)
+    {
+        return(
+        json_encode([
+            'status'=>"ok",
+            'content'=>$msg,
+            'student'=>$this->student
+        ])
+        );
+    }
 
 }

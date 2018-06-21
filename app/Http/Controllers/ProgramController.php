@@ -7,6 +7,7 @@ use App\Program;
 
 class ProgramController extends Controller
 {
+    private $program;
     /**
      * Create a new controller instance.
      *
@@ -29,24 +30,13 @@ class ProgramController extends Controller
             'duration'=>'required|numeric',
         ]);
 
-        $program=new Program($request->all());
+        $this->program=Program::create($request->all());
 
-        if($program->save()){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully created program!',
-                'program'=>$program
-            );
-        }
-        else{
-            return view('status',['response'=>'An error occurred!','back'=>'programs/create']);
+        if(!$this->program->save()){
+            return view('status', ['response' => 'An error occurred!', 'back' => 'programs/create']);
         }
 
-        return (
-                ($request->input('accessType')=='web') 
-                ? view('status',['response'=>json_encode($response),'back'=>'programs/create']) 
-                : $response
-        );
+        return view('status',['response'=>$this->getEncodedResponse("Successfully Created program"),'back'=>'programs/create']);
     }
 
     public function edit($code){
@@ -61,39 +51,35 @@ class ProgramController extends Controller
             'duration'=>'required|numeric',
         ]);
 
-        $program=Program::where('code',$request->input('code'))->firstOrFail();
+        $this->program=Program::where('code',$request->input('code'))->firstOrFail();
 
-        $updateCount=$program->update($request->all());
-        if($updateCount>0){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully updated program!',
-                'program'=>$program
-            );
-        }
-        else{
+        $updateCount=$this->program->update($request->all());
+        if(!$updateCount>0){
             return view('status',['response'=>'An error occurred!','back'=>'programs']);
         }
-        return view('status',['response'=>json_encode($response),'back'=>'programs']);
+        return view('status',['response'=>$this->getEncodedResponse("Program successfully updated"),'back'=>'programs']);
     }
 
     public function destroy($code){
-        $program=Program::where('code',$code)->firstOrFail();
+        $this->program=Program::where('code',$code)->firstOrFail();
 
-        if($program->delete()){
-            $response=array(
-                'status'=>'ok',
-                'content'=>'Successfully deleted program!',
-                'program'=>$program
-            );
-        }
-        else{
+        if(!$this->program->delete()){
             return view('status',['response'=>'An error occurred!','back'=>'programs']);
         }
 
-        return view('status',['response'=>json_encode($response),'back'=>'programs']);
+        return view('status',['response'=>$this->getEncodedResponse("Program successfully deleted"),'back'=>'programs']);
     }
 
 
+    private function getEncodedResponse($msg)
+    {
+        return(
+        json_encode([
+            'status'=>"ok",
+            'content'=>$msg,
+            'program'=>$this->program
+        ])
+        );
+    }
 
 }
