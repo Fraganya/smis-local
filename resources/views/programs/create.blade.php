@@ -15,7 +15,6 @@
             <div class="col-sm-6">
                 <div class="panel panel-info">
                     <div class="panel-body">
-                     
                      <form action="{{URL('programs/create')}}" method="POST" role="form">
                          <legend>Create New Program</legend>
                          <input type="hidden" name="accessType" value="web">
