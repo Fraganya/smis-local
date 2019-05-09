@@ -14,6 +14,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
+header('Access-Control-Allow-Origin: *');
 
 $router->get('/', function () use ($router) {
     return view('index');
@@ -65,6 +66,11 @@ $router->post('programs/update','ProgramController@update');
 $router->get('students/get/byId', function (Request $request) use ($router) {
     $this->validate($request,['id'=>'required|numeric']);
     return \App\Student::find($request->input('id'));
+});
+
+
+$router->get('students/get/random', function (Request $request) use ($router) {
+    return \App\Student::all()[rand(0,count(\App\Student::all())-1)];
 });
 
 $router->get('students/get/byReg', function (Request $request) use ($router) {

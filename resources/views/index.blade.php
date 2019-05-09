@@ -63,6 +63,12 @@
                                         <code>::host/students/get/byGender?gender={gender}</code>
                                     </p>
                             </a>
+                          <a href="#" class="list-group-item ">
+                              <h5 class="list-group-item-heading">Get Random Student</h5>
+                              <p class="list-group-item-text">
+                                  <code>::host/students/get/random</code>
+                              </p>
+                          </a>
                             <a href="#" class="list-group-item ">
                                     <h5 class="list-group-item-heading">Get all programs</h5>
                                     <p class="list-group-item-text">
